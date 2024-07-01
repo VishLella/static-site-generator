@@ -48,7 +48,7 @@ class TestHTMLNode(unittest.TestCase):
         tempDict = {"href": "https://www.google.com", "target": "_blank"}
 
         node = HTMLNode("p", "In today's episode of..", tempList, tempDict)
-        print(node)
+        #print(node)
         self.assertEqual(" href=\"https://www.google.com\" target=\"_blank\"", node.props_to_html())
 
 if __name__ == "__main__":
