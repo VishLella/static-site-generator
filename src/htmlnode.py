@@ -25,4 +25,22 @@ class HTMLNode:
                 f"Children: {self.children}\n" +
                 f"Props: {self.props}")
 
+class ParentNode(HTMLNode):
+
+    def __init__(self, tag, children, props=None):
+        super().__init__(tag, None, children, props)
+
+    def to_html(self):
+        if not self.tag:
+            raise ValueError("No tag provided.")
+        if not self.children:
+            raise ValueError("No children proviced.")
+
+        props_string = self.props_to_html()
+        string = f"<{self.tag}{props_string}>"
+
+        for child in self.children:
+            string += child.to_html()
+        string += f"</{self.tag}>"
+        return string
     
