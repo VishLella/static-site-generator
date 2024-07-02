@@ -26,6 +26,10 @@ def main():
 
     print(node.to_html())
 
+    nodes = [TextNode("This is `text` with a `code block` word", "text")]
+    new_nodes = TextNode.split_nodes_delimiter(nodes, "`", "code")
+    print(new_nodes)
+
     # tempList = []
     # tempDict = {"href": "https://www.google.com", "target": "_blank"}
 
