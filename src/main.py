@@ -6,7 +6,8 @@ from markdown_functions import (
     extract_markdown_images,
     extract_markdown_links,
     split_nodes_image,
-    split_nodes_link
+    split_nodes_link,
+    text_to_textnodes
 )
 def main():
     text = "This is a text node"
@@ -36,6 +37,8 @@ def main():
     new_nodes = split_nodes_delimiter(nodes, "`", "code")
     print(new_nodes)
 
+    
+
     text = "This is text with an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and another ![second image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/3elNhQu.png)"
     print(extract_markdown_images(text))
 
@@ -44,10 +47,8 @@ def main():
 
     print("\n\n\n")
 
-    node = TextNode(
-    "This is text with a [link](https://boot.dev) and [another link](https://blog.boot.dev)",
-    "text",)
-    print(split_nodes_link([node]))
+    text = "This is **text** with an *italic* word and a `code block` and an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and a [link](https://boot.dev)"
+    print(text_to_textnodes(text))
 
     # tempList = []
     # tempDict = {"href": "https://www.google.com", "target": "_blank"}
