@@ -25,10 +25,10 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
 #example: https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png
 def extract_markdown_images(text):
     list = []
-    categories = re.findall(r"!\[\w+\]", text)
+    categories = re.findall(r"!\[[\w ]+\]", text)
     matches = re.findall(r"\w+://[\w _./-]+", text)
     for i in range(0, len(categories)):
-        list.append((categories[i].strip("[]!"), matches[i]))
+        list.append((categories[i].strip("![]"), matches[i]))
     return list
 
 def extract_markdown_links(text):
@@ -38,3 +38,41 @@ def extract_markdown_links(text):
     for i in range(0, len(categories)):
         list.append((categories[i].strip("[]"), matches[i]))
     return list
+
+def split_nodes_image(old_nodes):
+    new_nodes = []
+
+    for node in old_nodes:
+        if node.text_type != "text":
+            new_nodes.append(node)
+        else:
+            node_string = node.text
+            image_tuples = extract_markdown_images(node_string)
+            for tuple in image_tuples:
+                list = node_string.split(f"![{tuple[0]}]({tuple[1]})", 1)
+                if list[0] != "":
+                    new_nodes.append(TextNode(list[0], "text"))
+                new_nodes.append(TextNode(tuple[0], "image", tuple[1]))
+                node_string = list[1]
+            if node_string != "":
+                new_nodes.append(TextNode(node_string, "text"))  
+    return new_nodes
+
+def split_nodes_link(old_nodes):
+    new_nodes = []
+
+    for node in old_nodes:
+        if node.text_type != "text":
+            new_nodes.append(node)
+        else:
+            node_string = node.text
+            link_tuples = extract_markdown_links(node_string)
+            for tuple in link_tuples:
+                list = node_string.split(f"[{tuple[0]}]({tuple[1]})", 1)
+                if list[0] != "":
+                    new_nodes.append(TextNode(list[0], "text"))
+                new_nodes.append(TextNode(tuple[0], "link", tuple[1]))
+                node_string = list[1]
+            if node_string != "":
+                new_nodes.append(TextNode(node_string, "text"))  
+    return new_nodes

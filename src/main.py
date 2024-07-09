@@ -4,7 +4,9 @@ from leafnode import LeafNode
 from markdown_functions import (
     split_nodes_delimiter,
     extract_markdown_images,
-    extract_markdown_links
+    extract_markdown_links,
+    split_nodes_image,
+    split_nodes_link
 )
 def main():
     text = "This is a text node"
@@ -34,11 +36,18 @@ def main():
     new_nodes = split_nodes_delimiter(nodes, "`", "code")
     print(new_nodes)
 
-    text = "This is text with an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and ![another](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/dfsdkjfd.png)"
+    text = "This is text with an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and another ![second image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/3elNhQu.png)"
     print(extract_markdown_images(text))
 
     text = "This is text with a [link](https://boot.dev) and [another link](https://blog.boot.dev)"
     print(extract_markdown_links(text))
+
+    print("\n\n\n")
+
+    node = TextNode(
+    "This is text with a [link](https://boot.dev) and [another link](https://blog.boot.dev)",
+    "text",)
+    print(split_nodes_link([node]))
 
     # tempList = []
     # tempDict = {"href": "https://www.google.com", "target": "_blank"}
