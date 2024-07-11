@@ -34,7 +34,8 @@ def extract_markdown_images(text):
 def extract_markdown_links(text):
     list = []
     categories = re.findall(r"\[[\w ]+\]", text)
-    matches = re.findall(r"\w+://[A-Za-z_./-]+", text)
+    matches = re.findall(r"\(([^()]+)\)", text)
+    #matches = re.findall(r"\w+://[A-Za-z_./-]+", text)
     for i in range(0, len(categories)):
         list.append((categories[i].strip("[]"), matches[i]))
     return list
