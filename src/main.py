@@ -13,70 +13,35 @@ from block_functions import (
     markdown_to_blocks,
     block_to_block_type
 )
+
+import os
+import shutil
+
 def main():
-    text = "This is a text node"
-    type = "bold"
-    url = "https://www.boot.dev"
 
-    node = TextNode(text, type, url)
+    i = 1
+    source = "./static"
+    destination = "./public"
+    reset_tree(destination)
+    transfer_files(source, destination)
 
-    node = ParentNode(
-        "p",
-        [
-            ParentNode("test", [
-                LeafNode(None, "Normal text"),
-                LeafNode("b", "Bold text"),
-                LeafNode("i", "italic text"),
-                LeafNode(None, "Normal text"),
-            ],),
-            LeafNode("b", "Bold text"),
-            LeafNode("i", "italic text"),
-            LeafNode(None, "Normal text"),
-        ],
-    )
+    #1. remove all files in the public directory
+def reset_tree(destination):
+    shutil.rmtree(destination)
+    os.mkdir(destination)
 
-    print(node.to_html())
+    #2. copy all files, subdirectories, nested files, etc from static to public dir
+def transfer_files(source, destination):
 
-    nodes = [TextNode("This is `text` with a `code block` word", "text")]
-    new_nodes = split_nodes_delimiter(nodes, "`", "code")
-    print(new_nodes)
+    dir = os.listdir(source)
+    for item in dir:
+        path = os.path.join(source, item)
+        #print(path)
+        if(os.path.isfile(path)):
+            shutil.copy(path, destination)
+        else:
+            os.mkdir(os.path.join(destination, item))
+            transfer_files(path, os.path.join(destination, item))
 
-    
-
-    text = "This is text with an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and another ![second image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/3elNhQu.png)"
-    print(extract_markdown_images(text))
-
-    text = "This is text with a [link](https://boot.dev) and [another link](https://blog.boot.dev)"
-    print(extract_markdown_links(text))
-
-    print("\n\n\n")
-
-    text = "This is **text** with an *italic* word and a `code block` and an ![image](https://storage.googleapis.com/qvault-webapp-dynamic-assets/course_assets/zjjcJKZ.png) and a [link](https://boot.dev)"
-    print(text_to_textnodes(text))
-
-    print("\n\n\n")
-
-    str = """
-###### This is a heading
-
-This is a paragraph of text. It has some **bold** and *italic* words inside of it.
-
-* This is a list item
-- This is another list item
-    """
-    blocks = markdown_to_blocks(str)
-    print(blocks)
-
-    for block in blocks:
-        print(block_to_block_type(block))
-        #print(block, "\n")
-
-
-    # tempList = []
-    # tempDict = {"href": "https://www.google.com", "target": "_blank"}
-
-    # html = HTMLNode("p", "In today's episode of..", tempList, tempDict)
-    # print(html.props_to_html())
-    
 
 main()
