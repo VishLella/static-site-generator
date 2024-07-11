@@ -57,7 +57,7 @@ def main():
     print("\n\n\n")
 
     str = """
-# This is a heading
+###### This is a heading
 
 This is a paragraph of text. It has some **bold** and *italic* words inside of it.
 
