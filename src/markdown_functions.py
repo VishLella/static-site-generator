@@ -26,7 +26,8 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
 def extract_markdown_images(text):
     list = []
     categories = re.findall(r"!\[[\w ]+\]", text)
-    matches = re.findall(r"\w+://[\w _./-]+", text)
+    #matches = re.findall(r"\w+://[\w _./-]+", text)
+    matches = re.findall(r"\(([^()]+)\)", text)
     for i in range(0, len(categories)):
         list.append((categories[i].strip("![]"), matches[i]))
     return list

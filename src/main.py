@@ -1,22 +1,11 @@
-from textnode import TextNode
-from htmlnode import HTMLNode, ParentNode
-from leafnode import LeafNode
-from markdown_functions import (
-    split_nodes_delimiter,
-    extract_markdown_images,
-    extract_markdown_links,
-    split_nodes_image,
-    split_nodes_link,
-    text_to_textnodes
-)
+import os
+import shutil
+
 from block_functions import (
     markdown_to_blocks,
-    block_to_block_type,
     markdown_to_html
 )
 
-import os
-import shutil
 
 def main():
 
@@ -27,7 +16,10 @@ def main():
 
     reset_tree(destination)
     transfer_files(source, destination)
-    generate_page("./content/index.md", template_path, "./public/index.html")
+    #generate_page("./content/index.md", template_path, "./public/index.html")
+    #generate_page("./content/majesty/index.md", template_path, "./public/majesty/index.html")
+    generate_pages_recursive("./content", template_path, "./public")
+   
 
 
 
@@ -87,6 +79,21 @@ def generate_page(from_path, template_path, dest_path):
     except Exception as e:
         raise Exception("Unable to write to file: ", e)
 
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
+    #/content
+    dir = os.listdir(dir_path_content)
+    #dest = dest_dir_path
+    for item in dir:
+        path = os.path.join(dir_path_content, item)
+        print(path)
+        #dest = os.path.join(dest_dir_path, item)
+        if(os.path.isfile(path)):
+            generate_page(path, template_path, dest_dir_path + "/index.html")
+            #shutil.copy(path, dest_dir_path)
+        else:
+            os.mkdir(os.path.join(dest_dir_path, item))
+            generate_pages_recursive(path, template_path, os.path.join(dest_dir_path, item))
+            #transfer_files(path, os.path.join(dest_dir_path, item))
 
 def extract_title(markdown):
     lines = markdown_to_blocks(markdown)

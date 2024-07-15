@@ -34,13 +34,16 @@ class ParentNode(HTMLNode):
         if not self.tag:
             raise ValueError("No tag provided.")
         if not self.children:
-            raise ValueError("No children proviced.")
+            raise ValueError("No children provided.")
 
         props_string = self.props_to_html()
         string = f"<{self.tag}{props_string}>"
 
         for child in self.children:
-            string += child.to_html()
+            try:
+                string += child.to_html()
+            except Exception as e:
+                raise Exception(e, child)
         string += f"</{self.tag}>"
         return string
     

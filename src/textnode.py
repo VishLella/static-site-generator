@@ -1,4 +1,5 @@
 from leafnode import LeafNode
+from htmlnode import ParentNode
 
 class TextNode:
     def __init__(self, text, text_type, url=None):
@@ -31,7 +32,7 @@ class TextNode:
             case "link":
                 return LeafNode("a", text_node.text, {"href" : text_node.url})
             case "image":
-                return LeafNode("img", "", {"src" : text_node.url , 
+                return LeafNode("img", " ", {"src" : text_node.url , 
                                             "alt" : text_node.text})
             case _:
                 raise Exception("Not a valid type.")
