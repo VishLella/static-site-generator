@@ -47,6 +47,7 @@ Project Root
 ```
 
 ## Setup and Usage
+- Make sure to have python 3.6+ installed
 - Clone Repository
 - Give permissions to run scripts
 - Run testing script to make sure project is working smoothly
